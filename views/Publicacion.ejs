@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>Publication - Saeko Media</title>
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/inicio.css" rel="stylesheet" />
+    <style>
+        /* Custom styles for the publication container */
+        .publication-container {
+            background-color: rgba(173, 216, 230, 0.6); /* Light blue translucent background */
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        /* Custom styles for the publication image */
+        .publication-image {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1 class="site-heading text-center text-faded d-none d-lg-block">
+            <span class="site-heading-upper text-primary mb-3"> Saeko Media y Disruptive Studio Media</span>
+            <span class="site-heading-lower">Un lugar para ver y compartir momentos increíbles</span>
+        </h1>
+    </header>
+    <%- include('layouts/navbar'); -%>
+
+    <section class="page-section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6 offset-md-3">
+                    <!-- Individual Publication Container -->
+
+                    <% if( Publicacion[0].categorias.nombre === "Imagenes" ){ %>
+                                         <div class="publication-container">
+                        <h2><%= Publicacion[0].titulo %></h2>
+                        <img src="<%= Publicacion[0].imagen %>" alt="<%= Publicacion.titulo %>" class="publication-image">
+                        <p><%= Publicacion[0].Descripcion %></p>
+
+                        <p>Creador: <%= Publicacion[0].creditos %></p>
+                        <p>Fecha de Creación: <%= new Date(Publicacion[0].fechaCreacion).toLocaleDateString() %></p>
+                    </div>
+
+                    <% } %> 
+
+
+
+
+
+                    <% if( Publicacion[0].categorias.nombre === "Videos" ){ %>
+                        <div class="publication-container">
+       <h2><%= Publicacion[0].titulo %></h2>
+       <iframe width="560" height="315" src="<%=Publicacion[0].url%>" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+ 
+       <p><%= Publicacion[0].Descripcion %></p>
+
+       <p>Creador: <%= Publicacion[0].creditos %></p>
+       <p>Fecha de Creación: <%= new Date(Publicacion[0].fechaCreacion).toLocaleDateString() %></p>
+   </div>
+
+   <% } %> 
+
+
+
+   <% if( Publicacion[0].categorias.nombre === "Documentostxt" ){ %>
+    <div class="publication-container">
+<h2><%= Publicacion[0].titulo %></h2>
+<img src="<%= Publicacion[0].imagen %>" alt="<%= Publicacion.titulo %>" class="publication-image">
+<p><%= Publicacion[0].Descripcion %></p>
+<p style="font-size: 18px;"><b><%= Publicacion[0].texto %></b></p>
+
+
+<p>Creador: <%= Publicacion[0].creditos %></p>
+<p>Fecha de Creación: <%= new Date(Publicacion[0].fechaCreacion).toLocaleDateString() %></p>
+</div>
+
+<% } %> 
+
+
+
+                    <!-- End Individual Publication Container -->
+                </div>
+            </div>
+        </div>
+        
+    </section>
+
+    <%- include('layouts/footer'); -%>
+
+    <!-- Bootstrap core JS-->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- Core theme JS-->
+    <script src="/js/inicio.js"></script>
+</body>
+</html>

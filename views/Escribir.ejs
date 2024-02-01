@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Business Casual - Start Bootstrap Theme</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/inicio.css" rel="stylesheet" />
+    </head>
+    <body>
+        <header>
+            <h1 class="site-heading text-center text-faded d-none d-lg-block">
+                <span class="site-heading-upper text-primary mb-3"> Saeko Media y Disruptive Studio Media</span>
+                <span class="site-heading-lower">Un lugar para ver y compartir momentos increibles</span>
+            </h1>
+        </header>
+        <%-include('layouts/navbar');-%>
+        <section class="page-section">
+            <div class="container">
+                <div class="container-formulario">
+                    <h2>¡Contribuye incorporando nuevo contenido!</h2>
+                    <form id="formularioContenido" action="/EscribirPOST" method="POST" enctype="multipart/form-data">
+                        
+                    <div class="form-group">
+                        <label for="titulo">Título:</label>
+                        <input type="text" class="form-control" id="titulo" name="titulo" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="texto">Descripción:</label>
+                        <textarea class="form-control" id="Descripción" name="Descripcion"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="texto">Miniatura:</label>
+                        <input type="text" class="form-control" id="Miniatura" name="Miniatura" required>
+                    </div>
+
+<!-- ... -->
+
+<select class="form-control" id="tematica" name="tematica" required onchange="actualizarCategorias()">
+    <option value="">Seleccione una temática</option>
+    <% tematicas.forEach(function(tematica) { %>
+        <option value="<%= tematica._id %>"><%= tematica.nombre %></option>
+    <% }); %>
+</select>
+<br>
+<select class="form-control" id="categorias" name="categorias">
+    <option value="">Seleccione una categoría</option>
+    <!-- Las opciones se llenarán dinámicamente -->
+</select>
+
+<!-- ... -->
+
+            <!-- Campo para imágenes -->
+            <div class="form-group campo-imagen" style="display: none;">
+                <label for="imagen">Imagen:</label>
+                <input type="url" class="form-control" id="imagen" name="imagen">
+            </div>
+
+            <!-- Campo para documentos txt -->
+            <div class="form-group campo-texto" style="display: none;">
+                <label for="texto">Documento de texto:</label>
+                <textarea class="form-control" id="texto" name="texto"></textarea>
+            </div>
+
+            <!-- Campo para videos -->
+            <div class="form-group campo-video" style="display: none;">
+                <label for="video">URL del video:</label>
+                <input type="url" class="form-control" id="video" name="video">
+            </div>
+<br>
+            <button type="submit" class="btn btn-primary">Agregar contenido</button>
+        </form>
+    </div>
+</div>
+</section>
+
+
+        <%-include('layouts/footer');-%>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/incio.js"></script>
+    </body>
+</html>
+<style>
+    /* Estilos para el contenedor del formulario */
+    .container-formulario {
+        background-color: rgba(135, 206, 235, 0.3); /* Azul claro con transparencia */
+        border-radius: 20px;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-top: 20px;
+    }
+
+    /* Estilos para mejorar el formulario y sus elementos */
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    .form-control {
+        border-radius: 5px;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        border-color: #007bff;
+        box-shadow: 0 2px 4px rgba(0, 123, 255, 0.3);
+    }
+
+    .btn-primary:hover {
+        background-color: #0069d9;
+        border-color: #0062cc;
+    }
+
+    label {
+        font-weight: bold;
+    }
+
+</style>
+<script>
+    function actualizarCategorias() {
+        const tematicaId = document.getElementById('tematica').value;
+        fetch(`/categoriasPorTematica?tematicaId=${tematicaId}`)
+            .then(response => response.json())
+            .then(categorias => {
+                const categoriasSelect = document.getElementById('categorias');
+                categoriasSelect.innerHTML = '<option value="">Seleccione una categoría</option>';
+                categorias.forEach(categoria => {
+                    const option = document.createElement('option');
+                    option.value = categoria.Tipo;
+                    option.textContent = categoria.nombre;
+                    categoriasSelect.appendChild(option);
+                });
+                actualizarFormulario(); // Actualizar formulario al cambiar las categorías
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function actualizarFormulario() {
+        var categoriaSeleccionada = document.getElementById('categorias').value;
+        document.querySelector('.campo-imagen').style.display = 'none';
+        document.querySelector('.campo-texto').style.display = 'none';
+        document.querySelector('.campo-video').style.display = 'none';
+
+        // Aquí debes reemplazar con los ID reales de tus categorías
+        if (categoriaSeleccionada === 'imagenes' ) {
+            document.querySelector('.campo-imagen').style.display = 'block';
+        } else if  (categoriaSeleccionada === 'textos') {
+            document.querySelector('.campo-texto').style.display = 'block';
+        } else if (categoriaSeleccionada === 'videos') {
+            document.querySelector('.campo-video').style.display = 'block';
+        }
+    }
+
+    document.getElementById('categorias').addEventListener('change', actualizarFormulario);
+
+    function esUrlImagen(url) {
+        return /\.(jpg|jpeg|png|gif)$/i.test(url);
+    }
+
+    document.getElementById('formularioContenido').addEventListener('submit', function(event) {
+        var categoriaSeleccionada = document.getElementById('categorias').value;
+        var urlImagen = document.getElementById('imagen').value;
+        var urlVideo = document.getElementById('video').value;
+        var documentoTexto = document.getElementById('texto').value;
+
+        if (categoriaSeleccionada === 'imagenes' && !esUrlImagen(urlImagen)) {
+            alert('Por favor, ingrese una URL válida de imagen (jpg, jpeg, png, gif).');
+            event.preventDefault();
+        } else if (categoriaSeleccionada === 'textos' && !urlVideo) {
+            alert('Por favor, ingrese una URL de video.');
+            event.preventDefault();
+        } else if (categoriaSeleccionada === 'videos' && !documentoTexto) {
+            alert('Por favor, seleccione un documento de texto.');
+            event.preventDefault();
+        }
+    });
+</script>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Business Casual - Start Bootstrap Theme</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/inicio.css" rel="stylesheet" />
+    </head>
+    <body>
+        <header>
+            <h1 class="site-heading text-center text-faded d-none d-lg-block">
+                <span class="site-heading-upper text-primary mb-3"> Saeko Media y Disruptive Studio Media</span>
+                <span class="site-heading-lower">Un lugar para ver y compartir momentos increibles</span>
+            </h1>
+        </header>
+        <%-include('layouts/navbar');-%>
+
+        <section class="page-section">
+            <div class="container">
+
+                <div class="user-table-container rounded p-4">
+                    <div class="search-container">
+                        <label for="correo-search">Buscar por Correo:</label>
+                        <input type="text" id="correo-search" placeholder="Ingrese el correo...">
+                        <button id="search-button" class="btn btn-primary">Buscar</button>
+                    </div>
+                    <br>
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Correo</th>
+                                    <th scope="col">Username</th>
+                                    <th scope="col">Rol</th>
+                                    <th scope="col">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Aquí van las filas con los datos de los usuarios -->
+                                <!-- Ejemplo de una fila: -->
+                                <% for(var i=0; i<usuarios.length; i++) {%>
+
+                                <tr>
+
+
+                                    <td><%=usuarios[i].Correo%></td>
+                                    <td><%=usuarios[i].Username%></td>
+
+                                    <td>
+                                        <form action="/PanelRol" method="POST" >
+                                        <select class="form-select" name="Rol">
+                                            <option value="creador" <% if (usuarios[i].Rol === 'creador') { %>selected<% } %>>Creador</option>
+                                            <option value="reader" <% if (usuarios[i].Rol === 'reader') { %>selected<% } %>>Lector</option>
+                                            <option value="admin" <% if (usuarios[i].Rol === 'admin') { %>selected<% } %>>Admin</option>
+                                        </select>
+                                        <input type="hidden" name="IdUsuario" value="<%=usuarios[i]._id%>">
+                                    </td>
+                                    <td><button class="btn btn-primary">Actualizar</button></td>
+                                </form>
+
+
+
+                                </tr>
+                                <% } %>
+
+                                <!-- Repetir para más usuarios... -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <%-include('layouts/footer');-%>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/incio.js"></script>
+    </body>
+</html>
+<style>
+    .user-table-container {
+    background-color: rgba(70, 130, 180, 0.8); /* Azul fuerte con transparencia */
+    margin: 0 auto; /* Centrado horizontal */
+    padding: 20px;
+    border-radius: 15px;
+}
+
+</style>
+<script>
+    // Función para realizar la búsqueda por correo
+    function buscarPorCorreo() {
+        var inputCorreo = document.getElementById('correo-search').value.toLowerCase(); // Obtener el valor del campo de búsqueda en minúsculas
+
+        var filas = document.querySelectorAll('.table tbody tr'); // Seleccionar todas las filas de la tabla
+
+        filas.forEach(function (fila) {
+            var correo = fila.querySelector('td:nth-child(1)').textContent.toLowerCase(); // Obtener el valor del correo en la fila actual en minúsculas
+
+            if (correo.includes(inputCorreo)) {
+                // Si el correo contiene el texto de búsqueda, mostrar la fila
+                fila.style.display = 'table-row';
+            } else {
+                // Si no contiene el texto de búsqueda, ocultar la fila
+                fila.style.display = 'none';
+            }
+        });
+    }
+
+    // Manejar la búsqueda cuando se hace clic en el botón
+    document.getElementById('search-button').addEventListener('click', buscarPorCorreo);
+
+    // Manejar la búsqueda en tiempo real mientras se escribe en el campo de búsqueda
+    document.getElementById('correo-search').addEventListener('input', buscarPorCorreo);
+</script>

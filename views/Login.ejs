@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Aarón Antonio Rodríguez Reyes</title>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/inicio.css" rel="stylesheet" />
+    </head>
+    <body>
+        <header>
+            <h1 class="site-heading text-center text-faded d-none d-lg-block">
+                <span class="site-heading-upper text-primary mb-3"> Saeko Media y Disruptive Studio Media</span>
+                <span class="site-heading-lower">Un lugar para ver y compartir momentos increibles</span>
+            </h1>
+        </header>
+        <%-include('layouts/navbar');-%>
+
+        <section class="page-section cta">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xl-9 mx-auto">
+                        <div class="cta-inner bg-faded text-center rounded">
+                            <h2 class="section-heading mb-5">
+                                <span class="section-heading-upper">¿Ya tienes una cuenta?</span>
+                                <br>
+                                <span class="section-heading-lower">Inicia sesión</span>
+                            </h2>
+                            <form id="registrationForm" action="/LoginPOST" method="POST">
+
+                                <div class="form-group mb-3">
+                                    <input type="email" class="form-control" id="email" name="Correo" placeholder="Correo Electrónico" required>
+                                </div>
+                                <div class="form-group mb-3">
+                                    <input type="password" class="form-control" id="password" name="Contraseña" placeholder="Contraseña" required>
+                                </div>
+
+                                <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <%-include('layouts/footer');-%>
+
+        <!-- Bootstrap core JS-->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+        <script src="js/inicio.js"></script>
+    </body>
+</html>
+<script>
+    document.getElementById("registrationForm").onsubmit = function(event) {
+        var password = document.getElementById("password").value;
+        var confirmPassword = document.getElementById("confirmPassword").value;
+        if (password !== confirmPassword) {
+            alert("Las contraseñas no coinciden.");
+            event.preventDefault(); // Prevenir el envío del formulario
+            return false;
+        }
+        return true;
+    };
+    </script>
+    

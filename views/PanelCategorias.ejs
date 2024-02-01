@@ -1,0 +1,356 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Business Casual - Start Bootstrap Theme</title>
+        <style>
+            .notification {color: red; font-size: 85%;}
+          </style>
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Raleway:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/inicio.css" rel="stylesheet" />
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.13/js/select2.min.js"></script>
+
+    </head>
+<body>
+        <!-- Load jQuery -->
+        <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <!-- Load Bootstrap -->
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    
+        <!-- Load the plugin bundle. -->
+        <link rel="stylesheet" href="css/filter_multi_select.css"/>
+        <script src="js/filter-multi-select-bundle.min.js"></script>
+    
+    <header>
+        <h1 class="site-heading text-center text-faded d-none d-lg-block">
+          <span class="site-heading-upper text-primary mb-3"> Saeko Media y Disruptive Studio Media</span>
+          <span class="site-heading-lower">Un lugar para ver y compartir momentos increibles</span>
+        </h1>
+    </header>
+    <%-include('layouts/navbar');-%>
+
+    <section class="page-section">
+        <div class="container">
+            <div class="content-container bg-light-blue p-4 rounded"> <!-- Contenedor agregado -->
+                <h2 class="text-center mb-4">Gestión de Categorías y Temáticas</h2>
+
+
+            <!-- Formulario para Crear Nueva Categoría/Temática -->
+            <div class="mb-5">
+                <h3 class="mb-3">Crear Nueva Categoría</h3>
+                <form action="/PanelCategoriasPOST" method="post">
+                    <div class="mb-3">
+                        <label for="nombreCategoria" class="form-label" name="nombre">Nombre de Categoría</label>
+                        <input type="text" class="form-control" id="nombreCategoria" name="nombre" placeholder="Ingrese nombre">
+                        <br>
+                        <input type="text" class="form-control" id="nombreCategoria" name="descripcion" placeholder="Ingrese Descripción">
+                        <br>
+
+                        <input type="text" class="form-control" id="nombreCategoria" name="imagenPortada" placeholder="imagen de Portada">
+                        <br>
+
+<div class="mb-3">
+  <label for="tipoContenido" class="form-label">Tipo</label>
+  <select class="form-select" id="tipoContenido" name="Tipo">
+      <option value="imagenes">Imágenes</option>
+      <option value="videos">Videos</option>
+      <option value="textos">Textos</option>
+  </select>
+</div>
+
+                    </div>
+                    <!--
+                    <div class="mb-3">
+                        <label for="tipoContenido" class="form-label">Permisos de Contenidos</label>
+                        <select class="form-select" id="tipoContenido">
+                            <option value="imagenes">Imágenes</option>
+                            <option value="videos">Videos</option>
+                            <option value="textos">Textos</option>
+                        </select>
+                    </div>
+-->
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </form>
+            </div>
+            <div class="mb-5">
+                <h3 class="mb-3">Crear Nueva Temática</h3>
+                <form action="/PanelTematicasPOST" method="post">
+                    
+                    <div class="form-group row">
+                        <div class="col-10">
+                    <div class="mb-3">
+                        <label for="nombreCategoria" class="form-label">Nombre de Temática</label>
+                        <input type="text" class="form-control" id="nombreCategoria" name="nombre" placeholder="Ingrese nombre">
+                    </div>
+         
+                      <label for="animals">Permisos de contenidos</label>
+
+
+                            <select multiple name="categorias" id="animals" class="filter-multi-select">
+                                <% for(var i=0; i<categorias.length; i++) {%>
+                                    <option value="<%=categorias[i]._id%>"><%=categorias[i].nombre%></option>
+                                    <% } %>
+
+                          </select>
+                          <br>
+                          <input type="text" class="form-control" id="nombreCategoria" name="descripcion" placeholder="Ingrese descripción">
+                          <br>
+                          <input type="text" class="form-control" id="nombreCategoria" name="imagenPortada" placeholder="Ingrese el URL de la imagen">
+
+                        </div>
+
+                      </div>
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </form>
+            </div>
+            
+            <form action="/EditarCategoria" method="post">
+              <div class="mb-5">
+                  <h3 class="mb-3">Categorias</h3>
+                  <table class="table table-bordered">
+                      <thead>
+                          <tr>
+                              <th scope="col">Nombre</th>
+                              <th scope="col">Descripción</th>
+                              <th scope="col">Imagen Categoría</th>
+                              <th scope="col">Acciones</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <% categorias.forEach(function(categoria, index) { %>
+                            <input type="hidden" name="categoriaId" value="<%=categoria._id%>">
+
+                              <tr>
+                                  <td>
+                                      <span class="categoria-nombre"><%= categoria.nombre %></span>
+                                      <input type="text" name="nombre[]" value="<%= categoria.nombre %>" placeholder="Nombre" class="form-control categoria-input" style="display: none;">
+                                  </td>
+                                  <td>
+                                      <span class="categoria-descripcion"><%= categoria.descripcion %></span>
+                                      <input type="text" name="descripcion[]" value="<%= categoria.descripcion %>" placeholder="Descripción" class="form-control categoria-input" style="display: none;">
+                                  </td>
+                                  <td>
+                                      <img src="<%= categoria.imagenPortada %>" alt="Descripción de la imagen" width="150" height="100">
+                                      <input type="text" name="imagenPortada[]" value="<%= categoria.imagenPortada %>" placeholder="Imagen Portada" class="form-control categoria-input" style="display: none;">
+                                  </td>
+                                  <td>
+                                      <button type="button" class="btn btn-info editar-categoria">Editar</button>
+                                      <a href="/BorrarCategoria?id=<%= categoria._id %>">Borrar</a>
+
+                                  </td>
+                              </tr>
+                          <% }); %>
+                      </tbody>
+                  </table>
+                  <div class="d-flex justify-content-center mt-4">
+                    <button type="submit" class="btn btn-primary">Guardar Todos los Cambios</button>
+                </div>
+                              </div>
+          </form>
+
+
+                        <form action="/EditarTematica" method="post">
+                          <!-- Tabla/Listado de Temáticas Existentes -->
+                          <div class="mb-5">
+                              <h3 class="mb-3">Temáticas</h3>
+                              <table class="table table-bordered">
+                                  <thead>
+                                      <tr>
+                                          <th scope="col">Nombre</th>
+                                          <th scope="col">Descripción</th>
+                                          <th scope="col">Imagen Temática</th>
+                                          <th scope="col">Permisos categorias incluidas</th>
+                                          <th scope="col">Acciones</th>
+                                      </tr>
+                                  </thead>
+                                  <tbody>
+                                      <% tematicas.forEach(function(tematica, index) { %>
+                                        <input type="hidden" name="tematicaId[]" value="<%= tematica._id %>">
+                                        <tr>
+                                              <td>
+                                                  <span class="tematica-nombre"><%= tematica.nombre %></span>
+                                                  <input type="text" name="nombre[]" value="<%= tematica.nombre %>" class="form-control tematica-input" style="display: none;">
+                                              </td>
+                                              <td>
+                                                  <span class="tematica-descripcion"><%= tematica.descripcion %></span>
+                                                  <input type="text" name="descripcion[]" value="<%= tematica.descripcion %>" class="form-control tematica-input" style="display: none;">
+                                              </td>
+                                              <td>
+                                                  <img src="<%= tematica.imagenPortada %>" alt="Descripción de la imagen" width="150" height="100">
+                                                  <input type="text" name="imagenPortada[]" value="<%= tematica.imagenPortada %>" class="form-control tematica-input" style="display: none;">
+                                              </td>
+                                              <td>
+            
+                                              <select multiple name="categorias[<%= index %>][]" class="filter-multi-select">
+                                                <% categorias.forEach(function(categoria) { %>
+                                                  <% var isSelected = tematica.categorias.includes(categoria._id.toString()); %>
+                                                  <option value="<%= categoria._id %>" <%= isSelected ? 'selected' : '' %>><%= categoria.nombre %></option>
+                                                <% }); %>
+                                              </select>
+                                              
+                                            </td>
+                                              <td>
+                                                  <button type="button" class="btn btn-info editar-tematica">Editar</button>
+                                                  <a href="/BorrarTematica?id=<%= tematica._id %>">Borrar</a>
+<!--<a href="/BorrarTematica?Filtro={{../Filtro}}&amp;page={{this}}&amp;consulta={{../consulta}}">Borrar</a>-->
+                                              </td>
+                                          </tr>
+                                      <% }); %>
+                                  </tbody>
+                              </table>
+                              <div class="d-flex justify-content-center">
+                                  <button type="submit" class="btn btn-primary">Guardar Todos los Cambios</button>
+                              </div>
+                          </div>
+                      </form>
+                      
+                        
+        </div>
+        <div>
+    </section>
+
+    <%-include('layouts/footer');-%>
+    <!-- Scripts de Bootstrap y otros aquí... -->
+</body>
+</html>
+<style>
+    .bg-light-blue {
+    background-color: rgba(135, 216, 255, 0.8); /* Azul claro con transparencia */
+    border-radius: 15px; /* Bordes redondeados */
+    padding: 20px; /* Espaciado interior */
+    margin-bottom: 20px; /* Espaciado exterior */
+}
+
+</style>
+<script>
+    $(document).ready(function() {
+        $('#tipoContenido').select2({
+            placeholder: "Seleccione permisos",
+            allowClear: true
+        });
+    });
+
+          // Use the plugin once the DOM has been loaded.
+          $(function () {
+        // Apply the plugin 
+        var notifications = $('#notifications');
+        $('#animals').on("optionselected", function(e) {
+          createNotification("selected", e.detail.label);
+        });
+        $('#animals').on("optiondeselected", function(e) {
+          createNotification("deselected", e.detail.label);
+        });
+        function createNotification(event,label) {
+          var n = $(document.createElement('span'))
+            .text(event + ' ' + label + "  ")
+            .addClass('notification')
+            .appendTo(notifications)
+            .fadeOut(3000, function() {
+              n.remove();
+            });
+        }
+        var shapes = $('#shapes').filterMultiSelect({
+          selectAllText: 'all...',
+          placeholderText: 'click to select a shape',
+          filterText: 'search',
+          labelText: 'Shapes',
+          caseSensitive: true,
+        });
+        var cars = $('#cars').filterMultiSelect();
+        var pl1 = $('#programming_languages_1').filterMultiSelect();
+        $('#b1').click((e) => {
+          pl1.enableOption("1");
+        });
+        $('#b2').click((e) => {
+          pl1.disableOption("1");
+        });
+        var pl2 = $('#programming_languages_2').filterMultiSelect();
+        $('#b3').click((e) => {
+          pl2.enable();
+        });
+        $('#b4').click((e) => {
+          pl2.disable();
+        });
+        var pl3 = $('#programming_languages_3').filterMultiSelect({
+          allowEnablingAndDisabling: false,
+        });
+        $('#b5').click((e) => {
+		  pl3.enableOption("1");
+        });
+        $('#b6').click((e) => {
+          pl3.disableOption("1");
+        });
+        $('#b7').click((e) => {
+          pl3.enable();
+        });
+        $('#b8').click((e) => {
+          pl3.disable();
+        });
+        var cities = $('#cities').filterMultiSelect({
+          items: [["San Francisco","a"],
+                  ["Milan","b",false,true],
+                  ["Singapore","c",true],
+                  ["Berlin","d",true,true],
+                 ],
+        });
+        var colors = $('#colors').filterMultiSelect();
+        var trees = $('#trees').filterMultiSelect({
+          selectionLimit: 3,
+        });
+        $('#jsonbtn1').click((e) => {
+           var b = true;
+           $('#jsonresult1').text(JSON.stringify(getJson(b),null,"  "));
+         });
+         var getJson = function (b) {
+           var result = $.fn.filterMultiSelect.applied
+               .map((e) => JSON.parse(e.getSelectedOptionsAsJson(b)))
+               .reduce((prev,curr) => {
+                 prev = {
+                   ...prev,
+                   ...curr,
+                 };
+                 return prev;
+               });
+           return result;
+         }
+         $('#jsonbtn2').click((e) => {
+           var b = false;
+           $('#jsonresult2').text(JSON.stringify(getJson(b),null,"  "));
+         });
+        $('#form').on('keypress keyup', function(e) {
+          var keyCode = e.keyCode || e.which;
+          if (keyCode === 13) { 
+            e.preventDefault();
+            return false;
+          }
+        });
+      });
+    $(document).ready(function() {
+        $('.editar-categoria').click(function() {
+            var tr = $(this).closest('tr'); // Encuentra la fila más cercana
+            tr.find('.categoria-input').toggle(); // Muestra/oculta los inputs
+            tr.find('.categoria-nombre, .categoria-descripcion').toggle(); // Muestra/oculta el texto
+        });
+    });
+    $(document).ready(function() {
+        $('.editar-tematica').click(function() {
+            var tr = $(this).closest('tr'); // Encuentra la fila más cercana
+            tr.find('.tematica-input').toggle(); // Muestra/oculta los inputs
+            tr.find('.tematica-nombre, .tematica-descripcion').toggle(); // Muestra/oculta el texto estático
+        });
+    });
+
+</script>
+
+
+
