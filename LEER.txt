@@ -4,3 +4,4 @@ Correo:admin1@hotmail.com
 pass:1234
 Correo:admin2@hotmail.com
 pass:1234
+Abrir en el navegador localhost:3000
