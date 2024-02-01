@@ -1,0 +1,6 @@
+Ejecutar con "npm start"
+Usuarios:
+Correo:admin1@hotmail.com
+pass:1234
+Correo:admin2@hotmail.com
+pass:1234

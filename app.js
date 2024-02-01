@@ -57,7 +57,8 @@ app.use((req, res, next) => {
   Correo=req.session.Correo
   next()
   });
-mongoose.connect('mongodb://127.0.0.1:27017/Datos', {useNewUrlParser: true});
+//mongoose.connect('mongodb://127.0.0.1:27017/Datos', {useNewUrlParser: true});
+mongoose.connect('mongodb+srv://NoLeDeboANadie:rickygei@noledeboanadie.i6p3wc9.mongodb.net/Test2', { useNewUrlParser: true });
 
 app.get("/", inicio);
 app.get("/RegistrarUsuario", RegistrarUsuario);
