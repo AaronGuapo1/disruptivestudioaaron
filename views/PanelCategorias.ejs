@@ -7,7 +7,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
         <meta name="description" content="" />
         <meta name="author" content="" />
-        <title>Business Casual - Start Bootstrap Theme</title>
+        <title>Aarón Antonio Rodríguez Reyes</title>
         <style>
             .notification {color: red; font-size: 85%;}
           </style>
@@ -22,6 +22,9 @@
 
     </head>
 <body>
+  <script>
+
+  </script>
         <!-- Load jQuery -->
         <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
         <!-- Load Bootstrap -->
@@ -145,7 +148,8 @@
                                   </td>
                                   <td>
                                       <button type="button" class="btn btn-info editar-categoria">Editar</button>
-                                      <a href="/BorrarCategoria?id=<%= categoria._id %>">Borrar</a>
+                                      <a href="/BorrarCategoria?id=<%=categoria._id%>" class="btn btn-danger">Borrar</a>
+
 
                                   </td>
                               </tr>
@@ -201,7 +205,9 @@
                                             </td>
                                               <td>
                                                   <button type="button" class="btn btn-info editar-tematica">Editar</button>
-                                                  <a href="/BorrarTematica?id=<%= tematica._id %>">Borrar</a>
+                                                  <a href="/BorrarTematica?id=<%= tematica._id %>" class="btn btn-danger">Borrar</a>
+
+
 <!--<a href="/BorrarTematica?Filtro={{../Filtro}}&amp;page={{this}}&amp;consulta={{../consulta}}">Borrar</a>-->
                                               </td>
                                           </tr>
@@ -221,6 +227,25 @@
 
     <%-include('layouts/footer');-%>
     <!-- Scripts de Bootstrap y otros aquí... -->
+ <script>
+  $(document).ready(function() {
+    // Inicializa filter-multi-select
+    $('select.filter-multi-select').filterMultiSelect();
+
+    // Evento de cambio para mantener al menos una opción seleccionada
+    $('select.filter-multi-select').on('change', function() {
+        var selectedOptions = $(this).find('option:selected');
+        if (selectedOptions.length === 0) {
+            // Revierte a la última selección válida si se intenta deseleccionar todo
+            $(this).find('option').each(function() {
+                this.selected = this.defaultSelected;
+            });
+            alert('Debe seleccionar al menos una categoría.');
+        }
+    });
+});
+
+ </script>
 </body>
 </html>
 <style>

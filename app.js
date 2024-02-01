@@ -44,6 +44,9 @@ const Contenido = require('./controllers/Contenido')
 const Escribir = require('./controllers/Escribir')
 const EscribirPOST = require('./controllers/EscribirPOST')
 const Publicacion = require('./controllers/Publicacion')
+const PanelContenido = require('./controllers/PanelContenido')
+const BorrarContenido = require('./controllers/BorrarContenido')
+const EditarContenido = require('./controllers/EditarContenido')
 
 app.use(require('express-session')({ secret: 'AaronGuapo', resave: true, saveUninitialized: true }));
 
@@ -79,6 +82,10 @@ app.use('/Contenido',Contenido)
 app.get('/Escribir',Escribir)
 app.post('/EscribirPOST',EscribirPOST)
 app.use('/Publicacion',Publicacion)
+app.get('/PanelContenido',PanelContenido)
+app.use('/BorrarContenido',BorrarContenido)
+app.post('/EditarContenido',EditarContenido)
+
 
 app.get('/categoriasPorTematica', async (req, res) => {
     const Tematica = require('./models/Tematicas');

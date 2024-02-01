@@ -136,7 +136,7 @@
                 categoriasSelect.innerHTML = '<option value="">Seleccione una categoría</option>';
                 categorias.forEach(categoria => {
                     const option = document.createElement('option');
-                    option.value = categoria._id;
+                    option.value = categoria._id; //Aquí categoria.Tipo 
                     option.textContent = categoria.nombre;
                     categoriasSelect.appendChild(option);
                 });
@@ -152,11 +152,11 @@
         document.querySelector('.campo-video').style.display = 'none';
 
         // Aquí debes reemplazar con los ID reales de tus categorías
-        if (categoriaSeleccionada === 'Imagenes' || categoriaSeleccionada === '65baf2e769b1c210fabc61f5' ) {
+        if (categoriaSeleccionada === 'imagenes' ) {
             document.querySelector('.campo-imagen').style.display = 'block';
-        } else if  (categoriaSeleccionada === 'Documentostxt' || categoriaSeleccionada === '65baf77b7dec44c00ffcac4e') {
+        } else if  (categoriaSeleccionada === 'textos') {
             document.querySelector('.campo-texto').style.display = 'block';
-        } else if (categoriaSeleccionada === 'Videos' || categoriaSeleccionada === '65bb4a6dde96f3a577c9f441') {
+        } else if (categoriaSeleccionada === 'videos') {
             document.querySelector('.campo-video').style.display = 'block';
         }
     }
@@ -173,13 +173,13 @@
         var urlVideo = document.getElementById('video').value;
         var documentoTexto = document.getElementById('texto').value;
 
-        if (categoriaSeleccionada === 'Imagenes' && !esUrlImagen(urlImagen)) {
+        if (categoriaSeleccionada === 'imagenes' && !esUrlImagen(urlImagen)) {
             alert('Por favor, ingrese una URL válida de imagen (jpg, jpeg, png, gif).');
             event.preventDefault();
-        } else if (categoriaSeleccionada === 'Videos' && !urlVideo) {
+        } else if (categoriaSeleccionada === 'videos' && !urlVideo) {
             alert('Por favor, ingrese una URL de video.');
             event.preventDefault();
-        } else if (categoriaSeleccionada === 'Documentostxt' && !documentoTexto) {
+        } else if (categoriaSeleccionada === 'textos' && !documentoTexto) {
             alert('Por favor, seleccione un documento de texto.');
             event.preventDefault();
         }
