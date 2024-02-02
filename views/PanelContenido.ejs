@@ -12,6 +12,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/inicio.css" rel="stylesheet" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 </head>
 <body>
     <header>
@@ -27,46 +29,40 @@
             <div class="row justify-content-center">
                 <div class="col-md-12">
                     <div class="bg-ocean-blue p-4 rounded">
-                        <!-- Filter Input -->
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="filterInput" placeholder="Filtrar por título" oninput="filterTable()">
-                        </div>
-                        <br>
-                        <table class="table" id="contenidoTable">
-                            <thead>
+                        <form action="/EditarContenido" method="POST">
+                            <table class="table">
+                              <thead>
                                 <tr>
-                                    <th>Título</th>
-                                    <th>Descripción</th>
-                                    <th>Acciones</th>
+                                  <th>Título</th>
+                                  <th>Descripción</th>
+                                  <th>Acciones</th>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <form action="/EditarContenido" method="POST">
-                                <% contenidos.forEach(function(item) { %>
-                                    <tr>
-                                        <td>
-                                            <span class="text" id="title_<%= item._id %>"><%= item.titulo %></span>
-                                            <input type="text" class="form-control edit-input" id="edit_title_<%= item._id %>" value="<%= item.titulo %>" style="display: none;">
-                                        </td>
-                                        <td>
-                                            <span class="text" id="description_<%= item._id %>"><%= item.Descripcion %></span>
-                                            <input type="text" class="form-control edit-input" id="edit_description_<%= item._id %>" value="<%= item.Descripcion %>" style="display: none;">
-                                        </td>
-                                        <td>
-                                            <button type="button"class="btn btn-primary edit-btn" data-id="<%= item._id %>" onclick="editContenido('<%= item._id %>')">Editar</button>
-                                            <button type="button" class="btn btn-danger save-btn" data-id="<%= item._id %>" onclick="saveContenido('<%= item._id %>')" style="display: none;">Guardar</button>
-                                            <button type="button" class="btn btn-danger cancel-btn" data-id="<%= item._id %>" onclick="cancelEdit('<%= item._id %>')" style="display: none;">Cancelar</button>
-                                            <a href="/BorrarContenido?id=<%=contenidos._id%>" class="btn btn-danger">Borrar</a>
-                                            <input type="hidde" name="IdContenido"value="<%=contenidos._id%>">
+                              </thead>
+                              <tbody>
+                                <% contenidos.forEach(function(contenido, index) { %>
+                                  <tr>
+                                    <td>
+                                        <span class="contenido-titulo"><%= contenido.titulo %></span>
+                                        <input type="text" name="titulo[]" value="<%= contenido.titulo %>" placeholder="Título" class="form-control contenido-input" style="display: none;">
+                                    </td>
+                                    <td>
+                                        <span class="contenido-descripcion"><%= contenido.Descripcion %></span>
+                                        <input type="text" name="Descripcion[]" value="<%= contenido.Descripcion %>" placeholder="Descripción" class="form-control contenido-input" style="display: none;">
+                                    </td>
+                                    <input type="hidden" name="id[]" value="<%= contenido._id %>">
+                                    <td>
+                                        <button type="button" class="btn btn-info editar-contenido">Editar</button>
+                                        <a href="/BorrarContenido?id=<%= contenido._id %>" class="btn btn-danger">Eliminar</a>
 
-                                        </td>
-                                    </tr>
+                                    </td>
+                                  </tr>
                                 <% }); %>
-                            </tbody>
-                            <button class="btn btn-success" onclick="saveAllChanges()" style="display: none;">Guardar Cambios</button>
-
-                        </table>
-                    </form>
+                              </tbody>
+                            </table>
+                            <div class="d-flex justify-content-center mt-4">
+                                <button type="submit" class="btn btn-primary">Guardar Todos los Cambios</button>
+                            </div>
+                          </form>
                     </div>
                 </div>
             </div>
@@ -90,82 +86,15 @@
     </style>
     
     <script>
-        function editContenido(contenidoId) {
-            // Hide the text and show the input field for editing
-            document.getElementById(`title_${contenidoId}`).style.display = "none";
-            document.getElementById(`edit_title_${contenidoId}`).style.display = "block";
-            document.getElementById(`description_${contenidoId}`).style.display = "none";
-            document.getElementById(`edit_description_${contenidoId}`).style.display = "block";
-            
-            // Show the "Guardar" and "Cancelar" buttons for this row
-            document.querySelector(`.edit-btn[data-id="${contenidoId}"]`).style.display = "none";
-            document.querySelector(`.save-btn[data-id="${contenidoId}"]`).style.display = "inline-block";
-            document.querySelector(`.cancel-btn[data-id="${contenidoId}"]`).style.display = "inline-block";
-            
-            // Show the "Guardar Cambios" button to save all changes
-            document.querySelector(".btn.btn-success").style.display = "inline-block";
-        }
-        
-        function saveContenido(contenidoId) {
-            // Get the edited values from input fields
-            const editedTitle = document.getElementById(`edit_title_${contenidoId}`).value;
-            const editedDescription = document.getElementById(`edit_description_${contenidoId}`).value;
-            
-            // Update the displayed text with edited values
-            document.getElementById(`title_${contenidoId}`).textContent = editedTitle;
-            document.getElementById(`description_${contenidoId}`).textContent = editedDescription;
-            
-            // Hide the input fields and show the text
-            document.getElementById(`title_${contenidoId}`).style.display = "block";
-            document.getElementById(`edit_title_${contenidoId}`).style.display = "none";
-            document.getElementById(`description_${contenidoId}`).style.display = "block";
-            document.getElementById(`edit_description_${contenidoId}`).style.display = "none";
-            
-            // Hide the "Guardar" and "Cancelar" buttons for this row
-            document.querySelector(`.edit-btn[data-id="${contenidoId}"]`).style.display = "inline-block";
-            document.querySelector(`.save-btn[data-id="${contenidoId}"]`).style.display = "none";
-            document.querySelector(`.cancel-btn[data-id="${contenidoId}"]`).style.display = "none";
-        }
-        
-        function cancelEdit(contenidoId) {
-            // Hide the input fields and show the text without saving changes
-            document.getElementById(`title_${contenidoId}`).style.display = "block";
-            document.getElementById(`edit_title_${contenidoId}`).style.display = "none";
-            document.getElementById(`description_${contenidoId}`).style.display = "block";
-            document.getElementById(`edit_description_${contenidoId}`).style.display = "none";
-            
-            // Hide the "Guardar" and "Cancelar" buttons for this row
-            document.querySelector(`.edit-btn[data-id="${contenidoId}"]`).style.display = "inline-block";
-            document.querySelector(`.save-btn[data-id="${contenidoId}"]`).style.display = "none";
-            document.querySelector(`.cancel-btn[data-id="${contenidoId}"]`).style.display = "none";
-        }
-        
-        function saveAllChanges() {
-            // Implement your logic here to save all changes made to the table
-            // You can collect the updated data from the displayed text or input fields as needed.
-            // After saving, you can hide the "Guardar Cambios" button.
-            
-            // Example: Loop through table rows and collect updated data
-            const tableRows = document.querySelectorAll("#contenidoTable tbody tr");
-            const updatedData = [];
-            tableRows.forEach((row) => {
-                const contenidoId = row.querySelector(".edit-btn").getAttribute("data-id");
-                const editedTitle = row.querySelector(".edit-input").value;
-                const editedDescription = row.querySelector(".edit-input").value;
-                
-                // Add the updated data to the array
-                updatedData.push({
-                    id: contenidoId,
-                    titulo: editedTitle,
-                    Descripcion: editedDescription
-                });
-            });
-            
-            // Send the updatedData to the server for saving (you need to implement this part)
-            
-            // Hide the "Guardar Cambios" button
-            document.querySelector(".btn.btn-success").style.display = "none";
-        }
+$(document).ready(function() {
+    $('body').on('click', '.editar-contenido', function() {
+        var tr = $(this).closest('tr');
+        tr.find('.contenido-input').toggle();
+        tr.find('.contenido-titulo, .contenido-descripcion').toggle();
+    });
+});
+
     </script>
 </body>
 </html>
+
